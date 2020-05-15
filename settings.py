@@ -1,3 +1,5 @@
+# storing season settings in separate python file for easy modification
+
 season_settings = {
     #number of teams in league
     'num_teams': 30,

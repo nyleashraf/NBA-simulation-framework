@@ -22,15 +22,19 @@ for i in range(num_teams):
 # create 82-game schedule for each team
 # would run this function 82 times to create full league schedule
 def create_matchups(league, matchups):
+    # shuffle team list each iteration to create randomized schedule
     random.shuffle(league)
+    # iterating through team list 15 times to create 15 matchups
     for i in range(int(len(league)//2)):
         t1 = league.pop()
         t2 = league.pop()
         pair = [t1, t2]
         matchups.append(pair)
 
+# now running create_matchups() 82 times to create full NBA season schedule
 matchups = []
 for i in range(season_settings['num_games']):
+    # create copy of team list each iteration so that we do not pop items from actual list
     temp_league = league.copy()
     create_matchups(temp_league, matchups)
 
@@ -42,13 +46,17 @@ def play_game(t1, t2):
     print("t1 score: ", t1_score)
     print("t2 score: ", t2_score)
 
+    # assigning Elo scores to new pointers -- don't think this is necessary
     t1_elo = t1.elo
     t2_elo = t2.elo
 
+    # creating Elo class object with Elo scores, game scores, and Elo settings
     elo_obj = Elo(t1_elo, t2_elo, t1_score, t2_score, elo_settings['K'], elo_settings['beta'])
 
+    # calculating the expected scores from team 1, team 2 given their Elo scores
     t1_elo_exp, t2_elo_exp = elo_obj.calc_expected_scores()
 
+    # update Elo scores based on expected scores, actual scores
     t1.elo, t2.elo = elo_obj.update_elo(t1_elo_exp, t2_elo_exp)
 
     #play game
@@ -69,10 +77,14 @@ def play_game(t1, t2):
         # higher skilled team takes a hit)
         play_game(t1, t2)
 
+    # PROBLEM: t1_outcome, in certain cases, not being assigned before the following line compiles
     t2_outcome = 1 - t1_outcome
+
+    # calculating error in Elo predictions
     t1_elo_error = (t1_elo_exp - t1_outcome) ** 2
     t2_elo_error = (t2_elo_exp - t2_outcome) ** 2
 
+    # updating total Elo error for each team object
     t1.elo_error += t1_elo_error
     t2.elo_error += t2_elo_error
 
@@ -90,6 +102,7 @@ def play_game(t1, t2):
     print(t1.list)
     print(t2.list)
 
+# creating an initial dataframe with each team and their W/L record, Elo rating, true rating, Elo error
 league_matrix = []
 for i in range(len(league)):
     team = league[i]
