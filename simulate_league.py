@@ -18,7 +18,7 @@ for i in range(len(matchups)):
 league_matrix = []
 for i in range(len(league)):
     team = league[i]
-    league_matrix.append(team.list)
+    league_matrix.append(team.get_attributes())
 
 final_league_df = pd.DataFrame(league_matrix, columns = ['Name', 'True Rating', 'Wins', 'Losses', 'Elo', 'Elo Error'])
 final_league_df.sort_values(by = 'True Rating', ascending = False, inplace = True)

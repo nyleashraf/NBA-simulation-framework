@@ -14,16 +14,16 @@ class Team():
         # elo score
         self.elo = elo
 
-        # random nudge factor to add variation
+        # nudge factor to add variation game-over-game
         self.ndg = ndg
 
         self.wins = 0
         self.losses = 0
 
+        # TODO: keep list of all Elo errors, will need to create new variable/list, plot over time
         self.elo_error = 0
 
-        # used for dataframe creation
-        self.list = [self.name, self.rting, self.wins, self.losses, self.elo, self.elo_error]
+        self.elo_error_list = []
 
     # will nudge winning team true rating if they pull off upset win
     def nudge_rating_up(self):
@@ -40,3 +40,6 @@ class Team():
     # keeping track of loss count through simulation
     def add_loss(self):
         self.losses += 1
+
+    def get_attributes(self):
+        return [self.name, self.rting, self.wins, self.losses, self.elo, self.elo_error]

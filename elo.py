@@ -2,6 +2,8 @@
 # K and beta are the arguments needed for the Elo rating calculation
 # '1' and '2' refer to the two teams in a given matchup
 # score1 and score2 refer to the "true rating" score with added variation to account for game randomness
+# TODO: potentially call this Elo_utils, take out init and just use for helper methods
+# TODO: can keep overall code logic the same, just don't need to initialize the Elo object
 
 class Elo():
 
